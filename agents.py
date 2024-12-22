@@ -1,13 +1,13 @@
 from crewai import Agent
 from textwrap import dedent
 from langchain_community.llms import OpenAI, Ollama
-from langchain_openai import ChatOpenAI
+from langchain_azure import AzureOpenAI
 
 
 class CustomAgents:
     def __init__(self):
-        self.OpenAIGPT4 = ChatOpenAI(model_name="gpt-4o", temperature=0.7)
-        # self.Ollama = ChatOpenAI(model_name="devainllama3", base_url = "http://localhost:11434/v1") 
+        self.AzureOpenAIGPT4 = AzureOpenAI(model_name="gpt-4o", temperature=0.7)
+        # self.Ollama = AzureOpenAI(model_name="devainllama3", base_url="http://localhost:11434/v1") 
         
     def architect_agent(self, tools):
         return Agent(
@@ -21,20 +21,20 @@ class CustomAgents:
             tools=tools,
             allow_delegation=False,
             verbose=True,
-            llm=self.OpenAIGPT4,
+            llm=self.AzureOpenAIGPT4,
         )
 
     def programmer_agent(self, tools):
         return Agent(
             role="Software Programmer",
             backstory=dedent(f"""\
-            You havea keen eye for detail and a knack for translating high-level design solutions into robust,
+            You have a keen eye for detail and a knack for translating high-level design solutions into robust,
             efficient code."""),
             goal=dedent(f"""Implement the solution provided by the architect"""),
             tools=tools,
             allow_delegation=False,
             verbose=True,
-            llm=self.OpenAIGPT4,
+            llm=self.AzureOpenAIGPT4,
         )
 
     def tester_agent(self, tools):
@@ -43,12 +43,12 @@ class CustomAgents:
             backstory=dedent(f"""\
             Your passion for quality ensures that every piece of code meets the highest
             standards through rigorous testing."""),
-            goal = dedent("""\
+            goal=dedent("""\
             Write and run test cases for the code implemented by the programmer"""),
             tools=tools,
             allow_delegation=False,
             verbose=True,
-            llm=self.OpenAIGPT4,
+            llm=self.AzureOpenAIGPT4,
         )
 
     def reviewer_agent(self, tools):
@@ -61,5 +61,5 @@ class CustomAgents:
             tools=tools,            
             allow_delegation=False,
             verbose=True,
-            llm=self.OpenAIGPT4,
+            llm=self.AzureOpenAIGPT4,
         )
